@@ -3,15 +3,7 @@
 <form action="{{ route('product.store', ['slug' => $category->slug]) }}" enctype="multipart/form-data" method="POST">
   @csrf
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-    @endif
+  
 
     @if(session('success'))
     <div class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded">

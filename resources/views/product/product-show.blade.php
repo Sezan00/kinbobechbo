@@ -69,14 +69,27 @@
     </div>
 
     <!-- Features -->
+     @if ($product->features->count())
     <div class="mt-10">
-      <h2 class="text-xl font-semibold text-gray-800 mb-2">🔧 Features</h2>
-      <ul class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1 text-gray-700 text-sm list-disc list-inside pl-4">
-        @foreach ($product->features as $feature)
-            <li>{{ $feature->name }}</li>
-        @endforeach
-      </ul>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">🔧 Features</h2>
+        <ul class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1 text-gray-700 text-sm list-disc list-inside pl-4">
+            @foreach ($product->features as $feature)
+                <li>{{ $feature->name }}</li>
+            @endforeach
+        </ul>
     </div>
+@endif
+      @if ($product->entities->count())
+    <div class="mt-10">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">💻 Specifications</h2>
+        <ul class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1 text-gray-700 text-sm list-disc list-inside pl-4">
+            @foreach ($product->entities as $entity)
+                <li><span class="font-medium">{{ $entity->type }}:</span> {{ $entity->value }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 
     <!-- Description -->
     <div class="mt-8">

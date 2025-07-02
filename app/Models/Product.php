@@ -35,7 +35,7 @@ class Product extends Model
     }
     
     public function entities(){
-        return $this->hasMany(ProductModel::class);
+        return $this->hasMany(ProductEntity::class);
     }
 
     public function image(){
@@ -49,7 +49,7 @@ class Product extends Model
     return $this->belongsTo(ProductModel::class, 'model_id');
     }
 
-    public function features()
+      public function features()
 {
     return $this->belongsToMany(Feature::class, 'feature_values');
 }

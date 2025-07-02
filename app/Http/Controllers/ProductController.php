@@ -24,7 +24,7 @@ class ProductController extends Controller
         'description' => 'nullable|string',
         'price' => 'required|numeric',
         'phone_number' => 'required|regex:/^01[0-9]{9}$/',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'features' => 'nullable|array',
         'features.*' => 'exists:features,id',
     ]);
@@ -110,7 +110,7 @@ class ProductController extends Controller
 
 
     public function ProductShow($id){
-        $product = Product::with('category', 'brand', 'model', 'features')->findOrFail($id);
+        $product = Product::with('category', 'brand', 'model', 'features', 'entities')->findOrFail($id);
         return view('product.product-show', compact('product'));
     }
 }

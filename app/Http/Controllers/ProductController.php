@@ -13,8 +13,8 @@ class ProductController extends Controller
 {
   public function store(Request $request, $slug) {
         // return $request->all();
-        // dd($request->all());
-
+        // return dd($request->all());
+        //  dd($request->file('images'));
     $request->validate([
         'condition' => 'required|in:new,used',
         'authenticity'  => 'required|in:original,refurbished',
@@ -24,14 +24,21 @@ class ProductController extends Controller
         'description' => 'nullable|string',
         'price' => 'required|numeric',
         'phone_number' => 'required|regex:/^01[0-9]{9}$/',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
         'features' => 'nullable|array',
         'features.*' => 'exists:features,id',
     ]);
 
-
+       
 
      try {
+         if($request->has('image')){
+            $file = $request->file('image');
+            $extension = $file ->getClientOriginalExtension();
+            $filename = time(). '.' .$extension;
+            $path = 'product/uploads/';
+            $file->move($path, $filename);
+        }
         $category = Category::where('slug', $slug)->firstOrFail();
 
   
@@ -42,6 +49,7 @@ class ProductController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
+            'image'=> $path . $filename,
             'category_id' => $category->id,
             'brand_id' => $brand->id,
             'condition' => $request->condition,
@@ -70,24 +78,23 @@ class ProductController extends Controller
     if (!empty($entitis)) {
         ProductEntity::insert($entitis);
     }
-}
-
-        if($request->hasFile('images')) {
-    foreach ($request->file('images') as $image) {
-        $filename = time().'_'.$image->getClientOriginalName();
-        $path = $image->storeAs('public/products', $filename);
-
-        ProductImage::create([
-            'product_id' => $product->id,
-            'image_path' => $path
-        ]);
     }
-}
+
+//    if ($request->hasFile('images')) {
+//     foreach ($request->file('images') as $image) {
+//         $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+//         $path = $image->storeAs('products', $filename, 'public');
+
+//         ProductImage::create([
+//             'product_id' => $product->id,
+//             'image_path' => $path, 
+            
+//         ]);
+//         }
+//       }
  
-    
 
-
-        if ($request->has('features')) {
+        if ($request->filled('features')) {
             foreach ($request->features as $feature) {
                 FeatureValues::create([
                     'product_id' => $product->id,
@@ -110,7 +117,12 @@ class ProductController extends Controller
 
 
     public function ProductShow($id){
-        $product = Product::with('category', 'brand', 'model', 'features', 'entities')->findOrFail($id);
-        return view('product.product-show', compact('product'));
+        
+        $product = Product::with('category', 'brand', 'model', 'features', 'entities', 'image')->findOrFail($id);
+         $imageUrls = $product->images->map(function ($img) {
+        return asset('storage/products/' . $img->image_path); 
+    });
+
+        return view('product.product-show', compact('product', 'imageUrls'));
     }
 }

@@ -10,7 +10,7 @@
         
     <a href="{{ route('product.show', $product->id) }}" class="block">
     <div class="flex items-center gap-4 border-b py-4 hover:bg-gray-50 transition">
-      <img src="https://via.placeholder.com/120" alt="Product Image" class="w-32 h-24 object-cover rounded">
+      <img src="{{ asset($product->image) }}" alt="Product Image" class="w-32 h-24 object-cover rounded">
       <div class="flex-1">
         <h3 class="text-lg font-semibold text-gray-800">{{$product->title}}</h3>
         <p class="text-gray-600 mt-1">Dhaka, {{$product->category->name}}</p>

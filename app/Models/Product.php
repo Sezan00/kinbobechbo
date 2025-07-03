@@ -21,6 +21,7 @@ class Product extends Model
     'brand_id',
     'model_id',
     'description',
+    'image',
     'condition',
     'authenticity',
     'phone_number',
@@ -54,4 +55,7 @@ class Product extends Model
     return $this->belongsToMany(Feature::class, 'feature_values');
 }
 
+    public function images(){
+        return $this->hasMany(ProductImage::class);
+    }
 }

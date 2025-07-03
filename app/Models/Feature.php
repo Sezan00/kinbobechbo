@@ -10,7 +10,8 @@ use App\Models\FeatureValues;
 class Feature extends Model
 {
     use HasFactory;
-
+     protected $table = 'features';
+     
     protected $fillable = ['name', 'category_id'];
 
     public function category(){

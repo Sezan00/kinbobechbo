@@ -92,7 +92,7 @@
     </div>
 
     <div class="mb-4">
-        <label class="text-gray-700 font-medium" for="">Features (optional)</label>
+        <label class="text-gray-700 font-medium" for="">Features (Required)</label>
     </div>
       @if($category->slug == 'Mobile-phones')
         @include('feature.mobile')
@@ -127,56 +127,24 @@
     </div>
 
     {{-- photo section  --}}
-    <div class="mb-4" >
-      <label class="text-gray-700 font-medium" for="">Add up to 5 photos</label>
-      <div class="grid grid-cols-5 gap-3">
-        
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-     <label class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24">
-        <input type="file" name="images[]" accept="image/*" class="hidden" multiple>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span class="text-xs text-gray-500 text-center">Add a photo</span>
-      </label>
-      </div>
-    </div>
-    {{-- more 10 photo put need to pay  --}}
     <div class="mb-4">
+  <label class="text-gray-700 font-medium mb-2 block">Add up to 5 photos</label>
+
+  <label
+    for="imageInput"
+    class="border border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition h-24 w-24"
+  >
+    <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" multiple>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    <span class="text-xs text-gray-500 text-center">Add Photos</span>
+  </label>
+
+  <div id="preview" class="grid grid-cols-5 gap-2 mt-4"></div>
+</div>
+    {{-- more 10 photo put need to pay  --}}
+    {{-- <div class="mb-4">
       <label class="block text-gray-700 font-medium" for="">Got more images to upload? </label>
       <label class="text-sm text-gray-700" for="">Sell faster by adding 10 more images for a fee of Tk 299.</label>
 
@@ -254,7 +222,7 @@
 
         
       </div>
-    </div>
+    </div> --}}
     {{-- contact section  --}}
     <div class="mb-4">
       <label class="block text-gray-700 font-medium mb-4" for="">Contact details</label>
@@ -337,6 +305,30 @@
     }
 
 
+   const imageInput = document.getElementById('imageInput');
+  const preview = document.getElementById('preview');
+  let selectedFiles = [];
+
+  imageInput.addEventListener('change', function (event) {
+    const newFiles = Array.from(event.target.files);
+
+    selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
+
+    preview.innerHTML = '';
+
+   
+    selectedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'w-full h-24 object-cover rounded border';
+        preview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+
     
+  });
   </script>
 @endpush

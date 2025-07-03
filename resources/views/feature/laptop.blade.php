@@ -12,3 +12,7 @@
     </select>
     <input type="hidden" name="entity[]" value="ram">
 </div>
+
+<script>
+    document.querySelector('[name="features[]"]').remove();
+</script>

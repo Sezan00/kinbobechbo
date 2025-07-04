@@ -13,11 +13,16 @@
             <div class="flex gap-4 items-center">
                  <a href="">KinboBechbo</a>
                 <span class="text-white font-bold">All Ads</span>
-                <span class="text-white font-bold">Bangla</span>
+                <span class="text-white border border-gray-300 px-2 py-0.5 rounded shadow-sm">বাংলা </span>
             </div>
-            <div class="flex gap-5">
+            <div class="flex gap-5 items-center">
                 <span class="text-white font-bold">💬Chat</span>
+                <a href="{{ route('user.account') }}">
                 <span class="text-white font-bold">👤Account</span>
+                </a>
+                <a href="#">
+                <button class="text-black font-bold border-2px border-black bg-[#ffc800] px-3 py-2">POST FREE AD</button>
+                </a>
             </div>
         </div>
          

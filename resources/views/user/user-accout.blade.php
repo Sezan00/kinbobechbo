@@ -31,28 +31,19 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                     <!-- Dummy Product -->
+                    @foreach ($products as $product)
+                        
+                   <a href="{{ route('product.show', $product->id) }}">
                     <div class="border rounded-lg shadow-sm p-4">
-                        <img src="https://via.placeholder.com/300" class="w-full h-40 object-cover rounded" alt="Product">
-                        <h3 class="mt-2 font-semibold text-lg">Samsung Galaxy S21</h3>
-                        <p class="text-sm text-gray-600">Used, Good Condition</p>
-                        <p class="text-blue-600 font-bold mt-1">$350</p>
+                        <img src="{{ asset($product->image) }}" class="w-full h-40 object-cover rounded" alt="Product">
+                        <h3 class="mt-2 font-semibold text-lg">{{ $product->title }}</h3>
+                        <p class="text-sm text-gray-600">{{$product->description}}</p>
+                        <p class="text-blue-600 font-bold mt-1">{{$product->price}}</p>
                     </div>
-
-                    <!-- Dummy Product -->
-                    <div class="border rounded-lg shadow-sm p-4">
-                        <img src="https://via.placeholder.com/300" class="w-full h-40 object-cover rounded" alt="Product">
-                        <h3 class="mt-2 font-semibold text-lg">HP EliteBook 840</h3>
-                        <p class="text-sm text-gray-600">Brand New</p>
-                        <p class="text-blue-600 font-bold mt-1">$700</p>
-                    </div>
-
-                    <!-- Dummy Product -->
-                    <div class="border rounded-lg shadow-sm p-4">
-                        <img src="https://via.placeholder.com/300" class="w-full h-40 object-cover rounded" alt="Product">
-                        <h3 class="mt-2 font-semibold text-lg">BMW 320i Sedan</h3>
-                        <p class="text-sm text-gray-600">2019, 45K km</p>
-                        <p class="text-blue-600 font-bold mt-1">$15,000</p>
-                    </div>
+                    </a>
+                    @endforeach
+                    
+                  
 
                 </div>
             </main>

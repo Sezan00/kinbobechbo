@@ -20,7 +20,7 @@
                 <a href="{{ route('user.account') }}">
                 <span class="text-white font-bold">👤Account</span>
                 </a>
-                <a href="#">
+                <a href="{{ route('category_show') }}">
                 <button class="text-black font-bold border-2px border-black bg-[#ffc800] px-3 py-2">POST FREE AD</button>
                 </a>
             </div>

@@ -21,17 +21,17 @@
       <div class="space-y-4 text-gray-800 text-base">
         <div class="flex items-center gap-2">
           <span class="font-semibold w-32">Name:</span>
-          <span>All Sharia</span>
+          <span>{{$user->name}}</span>
         </div>
 
         <div class="flex items-center gap-2">
           <span class="font-semibold w-32">Email:</span>
-          <span>allsharia@example.com</span>
+          <span>{{$user->email}}</span>
         </div>
 
         <div class="flex items-center gap-2">
           <span class="font-semibold w-32">Joined:</span>
-          <span>July 1, 2025</span>
+          <span> {{ $user->created_at->format('F j, Y') }}</span>
         </div>
       </div>
     </main>

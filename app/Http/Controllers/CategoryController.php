@@ -40,5 +40,12 @@ class CategoryController extends Controller
 
     }
 
+    public function categoryPageForUser(){
+        $categories = Category::all();
+
+        return view('category.category-wise-product', compact('categories'));
+        
+    }
+
 
 }

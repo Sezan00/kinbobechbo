@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,5 +16,12 @@ Route::post('user/login', [UserController::class, 'UserLoginPost'])->name('login
 Route::get('logout', [UserController::class, "logout"])->name("logout");
 
 // user account 
-Route::get('my/account', [UserController::class, 'UserAccount'])->name('user.account');
-Route::get('my/profile', [UserController::class, 'UserProfileShow'])->name('user.profile');
+Route::middleware('user')->group(function () {
+   Route::get('my/account', [UserController::class, 'UserAccount'])->name('user.account');
+    Route::get('my/profile', [UserController::class, 'UserProfileShow'])->name('user.profile');
+});
+
+
+// guest 
+
+Route::get('/', [CategoryController::class, 'categoryPageForUser'])->name('category.user');

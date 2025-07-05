@@ -48,6 +48,7 @@ class ProductController extends Controller
         $product = Product::create([
             'title' => $request->title,
             'description' => $request->description,
+            'user_id' => auth('web')->id(),
             'price' => $request->price,
             'image'=> $path . $filename,
             'category_id' => $category->id,
@@ -124,5 +125,44 @@ class ProductController extends Controller
     });
 
         return view('product.product-show', compact('product', 'imageUrls'));
+    }
+
+    public function PosterEditHisProduct(string $id){
+        $product = Product::findOrFail($id);
+        return view('user.prodcut-edit', compact('product'));
+    }
+
+
+    public function UpdateProduct(Request $request, string $id){
+        $request->validate([
+            'title' => 'required|string',
+            'description'=> 'required|string',
+            'price'=> 'required|numeric',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update([
+            'title' => $request->title,
+            'description'=> $request->description,
+            'price' => $request->price,
+        ]);
+
+        return redirect()->back()->with('success', 'Your Data has been updated');
+
+    }
+
+    public function destroy(string $id){
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('user.account')->with('deleted', 'your data has been deleted');
+    }
+
+
+    public function CategoryShowProduct($slug){
+        $category = Category::where('slug', $slug)->firstOrFail();
+        
+        $products = $category->products()->latest()->get();
+
+        return view('product.category-to-product', compact( 'category','products'));
     }
 }

@@ -51,15 +51,20 @@ class UserController extends Controller
     }
 
     public function UserAccount(){
-        return view('user.user-accout');
+        $user = auth('web')->user();
+        $products = $user->product()->latest()->get();
+        return view('user.user-accout', compact('products'));
     }
 
     public function UserProfileShow(){
-        return view('user.user-profile');
+        $user = Auth('web')->user();
+        return view('user.user-profile', compact('user'));
     }
 
     public function logout(Request $request){
         Auth::logout();
         return redirect()->route('login.view');
     }
+
+    
 }

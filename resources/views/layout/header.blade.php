@@ -16,7 +16,9 @@
                 <span class="text-white border border-gray-300 px-2 py-0.5 rounded shadow-sm">বাংলা </span>
             </div>
             <div class="flex gap-5 items-center">
+                <a href="{{ route('chat.list') }}">
                 <span class="text-white font-bold">💬Chat</span>
+                </a>
                 <a href="{{ route('user.account') }}">
                 <span class="text-white font-bold">👤Account</span>
                 </a>

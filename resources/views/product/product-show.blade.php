@@ -41,6 +41,13 @@
           <p class="text-sm text-gray-500 mb-1">📞 Seller's Phone Number</p>
           <p class="text-lg font-medium text-blue-700">{{ $product->phone_number }}</p>
         </div>
+       <div class="mt-4">
+       
+        <a href="{{ route('chat.with.user', $product->user->id) }}" 
+          class="inline-block mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+          💬 Chat with Seller
+        </a>
+      </div>
       </div>
     </div>
 

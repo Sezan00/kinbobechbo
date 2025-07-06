@@ -11,6 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
+        channels: __DIR__.'/../routes/channels.php',
         health: '/up',
         then:function(){
             Route::middleware('web')->group(base_path('routes/product.php'));
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('web')->group(base_path('routes/feature.php'));
             Route::middleware('web')->group(base_path('routes/model.php'));
             Route::middleware('web')->group(base_path('routes/user.php'));
+            Route::middleware('web')->group(base_path('routes/message.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

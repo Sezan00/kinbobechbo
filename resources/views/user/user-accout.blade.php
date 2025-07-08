@@ -37,7 +37,7 @@
                     <div class="border rounded-lg shadow-sm p-4">
                         <img src="{{ asset($product->image) }}" class="w-full h-40 object-cover rounded" alt="Product">
                         <h3 class="mt-2 font-semibold text-lg">{{ $product->title }}</h3>
-                        <p class="text-sm text-gray-600">{{$product->description}}</p>
+                        <p class="text-sm text-gray-600">{{Str::limit($product->description, 30)}}</p>
                         <p class="text-blue-600 font-bold mt-1">{{$product->price}}</p>
                     </div>
                     </a>

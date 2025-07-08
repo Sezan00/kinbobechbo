@@ -305,7 +305,7 @@
     }
 
 
-   const imageInput = document.getElementById('imageInput');
+const imageInput = document.getElementById('imageInput');
   const preview = document.getElementById('preview');
   let selectedFiles = [];
 

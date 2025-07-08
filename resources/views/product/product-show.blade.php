@@ -42,11 +42,13 @@
           <p class="text-lg font-medium text-blue-700">{{ $product->phone_number }}</p>
         </div>
        <div class="mt-4">
-       
+        
+       @if (auth()->id() !== $product->user_id)
         <a href="{{ route('chat.with.user', $product->user->id) }}" 
           class="inline-block mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
           💬 Chat with Seller
         </a>
+           @endif
       </div>
       </div>
     </div>
@@ -99,7 +101,47 @@
             </div>
         @endif
     @endauth
-</div>
+
+ {{-- Quetion fort non owners  --}}
+@auth
+    @if(auth()->id() !== $product->user_id) 
+        <form action="{{ route('question.store', $product->id) }}" method="POST" class="mb-6">
+            @csrf
+            <div class="mt-4 bg-white p-4 rounded shadow">
+                <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">🤔 Ask a Question</h2>
+                <textarea name="question" required class="w-full p-2 border rounded" placeholder="Write your question"></textarea>
+                <button type="submit" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Send Question</button>
+            </div>
+        </form>
+    @endif
+@endauth
+
+
+{{-- list of All question and answer  --}}
+<h2 class="text-xl font-semibold mt-6 mb-4">Question And Answer</h2>
+
+@forelse ($product->questions as $question)
+    <div class="mb-4 p-4 bg-gray-50 border rounded">
+        <p><strong>{{ $question->asker->name  }}:</strong> {{ $question->question }}</p>
+       
+ 
+        @if($question->answer)
+            <div class="mt-2 pl-3 border-l-4 border-green-500">
+                <p class="text-green-700"><strong>{{ $question->answer->replier->name }}:</strong> {{ $question->answer->answer }}</p>
+            </div>
+        @elseif(auth()->id() === $product->user_id)
+            {{-- only for owner form  --}}
+            <form action="{{ route('answer.store', $question->id) }}" method="POST" class="mt-3">
+                @csrf
+                <textarea name="answer" required class="w-full p-2 border rounded" placeholder="Write you answer here"></textarea>
+                <button type="submit" class="mt-2 px-4 py-1 bg-green-600 text-white rounded">Answer</button>
+            </form>
+        @endif
+    </div>
+@empty
+    <p class="text-gray-500">No Question in this Product</p>
+@endforelse
+
   </div>
 </div>
 

@@ -11,7 +11,7 @@
     <nav class="bg-[#169C89]">  
         <div class="max-w-5xl  mx-auto flex-col sm:flex-row flex gap-4 justify-between items-center py-4 px-4">
             <div class="flex gap-4 items-center">
-                 <a href="">KinboBechbo</a>
+                 <a href="{{ route('category.user') }}">KinboBechbo</a>
                 <span class="text-white font-bold">All Ads</span>
                 <span class="text-white border border-gray-300 px-2 py-0.5 rounded shadow-sm">বাংলা </span>
             </div>

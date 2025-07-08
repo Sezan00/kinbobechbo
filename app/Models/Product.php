@@ -8,7 +8,7 @@ use App\Models\Category;
 Use App\Models\FeatureValues;
 use App\Models\ProductEntity;
 Use App\Models\ProductImage;
-
+Use App\Models\Question;
 class Product extends Model
 {
    use HasFactory;
@@ -62,5 +62,9 @@ class Product extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function questions(){
+        return $this->hasMany(Question::class);
     }
 }

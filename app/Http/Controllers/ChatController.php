@@ -12,7 +12,9 @@ class ChatController extends Controller
 {
     public function chatWithUser(User $user){
         $authId = Auth::id();
-
+        if ($authId === (int) $user->id) {
+        return redirect()->back()->with('error', 'You cannot message yourself.');
+        }
         $messages = Message::where(function ($q) use ($authId, $user){
             $q->where('sender_id', $authId)->where('receiver_id', $user->id);
         })->orWhere(function ($q) use ($authId, $user){

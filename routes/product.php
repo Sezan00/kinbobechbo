@@ -21,5 +21,5 @@ Route::get('product/show/{id}', [ProductController::class, 'ProductShow'])->name
 Route::middleware('user')->group(function () {
     Route::get('/product/{id}/edit', [ProductController::class, 'PosterEditHisProduct'])->name('product.edit');
     Route::put('/product/{id}', [ProductController::class, 'UpdateProduct'])->name('product.update');
-    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy')->middleware('can:delete');
 });

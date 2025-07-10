@@ -44,7 +44,7 @@ class UserController extends Controller
             "email" => $request->email,
             "password"=> $request->password 
         ])){
-            return redirect()->route('product.list')->with("Success", "User logged in successfully");
+            return redirect()->route('category.user')->with("Success", "User logged in successfully");
         } else {
             return back()->with("error", "Username or password are wrong");
         }

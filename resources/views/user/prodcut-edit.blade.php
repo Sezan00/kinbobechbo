@@ -7,8 +7,9 @@
     @session('success')
 	<div class = 'alert-alert' >  {{ session('success') }} </div>
 	@endsession
-
+      
     <form action="{{ route('product.update', $product->id) }}" method="POST">
+        
         @csrf
         @method('PUT')
       <!-- Title -->

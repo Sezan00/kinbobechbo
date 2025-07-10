@@ -9,6 +9,7 @@ use App\Models\FeatureValues;
 use App\Models\Category;
 Use App\Models\ProductEntity;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\Gate;
 class ProductController extends Controller
 {
   public function store(Request $request, $slug) {
@@ -118,7 +119,7 @@ class ProductController extends Controller
 
 
     public function ProductShow($id){
-        
+
         $product = Product::with('category', 'brand', 'model', 'features', 'entities', 'image')->findOrFail($id);
          $imageUrls = $product->images->map(function ($img) {
         return asset('storage/products/' . $img->image_path); 
@@ -129,11 +130,14 @@ class ProductController extends Controller
 
     public function PosterEditHisProduct(string $id){
         $product = Product::findOrFail($id);
+        Gate::authorize('update', $product);
         return view('user.prodcut-edit', compact('product'));
     }
 
 
     public function UpdateProduct(Request $request, string $id){
+        $product = Product::findOrFail($id);
+        // Gate::authorize('update', $product);
         $request->validate([
             'title' => 'required|string',
             'description'=> 'required|string',
@@ -153,6 +157,7 @@ class ProductController extends Controller
 
     public function destroy(string $id){
         $product = Product::findOrFail($id);
+        Gate::authorize('delete', $product);
         $product->delete();
         return redirect()->route('user.account')->with('deleted', 'your data has been deleted');
     }

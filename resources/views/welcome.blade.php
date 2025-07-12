@@ -105,7 +105,7 @@
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="">Title</label>
          <label for="">
-            <input name="title" class="w-full border border-gra-300 px-4 py-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-400" type="text">
+            <input name="title" class="w-full border border-gray-300 px-4 py-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-400" type="text">
          </label>
     </div>
 

@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('web')->group(base_path('routes/user.php'));
             Route::middleware('web')->group(base_path('routes/message.php'));
             Route::middleware('web')->group(base_path('routes/question.php'));
+            Route::middleware('web')->group(base_path('routes/permission.php'));
+            Route::middleware('web')->group(base_path('routes/admin.php'));
+            Route::middleware('web')->group(base_path('routes/role.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

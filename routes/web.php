@@ -6,4 +6,4 @@ use App\Http\Controllers\Controller;
 
 Route::get('/terms', [Controller::class, 'TermsAndCondition'])->name('terms_condition');
 
-Route::get('admin/dashboard', [Controller::class, 'AdminPannelView'])->name('admin.view');
+// Route::get('admin/dashboard', [Controller::class, 'AdminPannelView'])->name('admin.view');

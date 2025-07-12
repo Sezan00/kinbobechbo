@@ -10,7 +10,4 @@ class Controller extends BaseController
         return view('document.terms');
     }
 
-    public function AdminPannelView(){
-        return view('admin.admin-view');
-    }
 }

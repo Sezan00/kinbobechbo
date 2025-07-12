@@ -19,7 +19,7 @@
         <a href="{{ route('permisson.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🛡️ Permissions</a>
         <a href="{{ route('roles.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🔐 Roles</a>
         <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">⚙️ Settings</a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-red-100 text-red-500">🚪 Logout</a>
+        <a href="{{ route('logout.panel') }}" class="block px-4 py-2 rounded hover:bg-red-100 text-red-500">🚪 Logout</a>
       </nav>
     </aside>
 

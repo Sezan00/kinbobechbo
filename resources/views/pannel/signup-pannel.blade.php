@@ -10,7 +10,7 @@
   <div class="w-full max-w-md p-8 border border-gray-200 rounded-xl shadow-md">
     <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Create Panel Account</h2>
 
-    <form action="{{ route('signup.post') }}" method="POST">
+    <form action="{{ route('signup.post.panel') }}" method="POST">
       @csrf
       <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>

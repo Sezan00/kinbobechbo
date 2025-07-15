@@ -1,4 +1,4 @@
-@extends('layout.header')
+@extends('layout.panel-header')
 @section('content')
 <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md">
 @if (session('success'))

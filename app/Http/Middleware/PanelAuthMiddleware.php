@@ -19,6 +19,6 @@ class PanelAuthMiddleware
         if(Auth::guard('panel')->check()){
             return $next($request);
         }
-       return redirect()->route('show.login')->with('error', 'Please login as admin first.');
+       return redirect()->route('login.post.panel')->with('error', 'Please login as role first.');
     }
 }

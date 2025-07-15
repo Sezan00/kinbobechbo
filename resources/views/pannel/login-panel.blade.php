@@ -54,7 +54,7 @@
 
     <p class="text-sm text-center text-gray-500 mt-4">
       Don't have an account?
-      <a href="#" class="text-blue-600 hover:underline">Sign up</a>
+      <a href="{{ route('show.signup') }}" class="text-blue-600 hover:underline">Sign up</a>
     </p>
   </div>
 

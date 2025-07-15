@@ -43,7 +43,7 @@ class PanelController extends Controller
         ])->withInput();
     }
 
-    public function Logout(Request $request){
+    public function logoutPanel(Request $request){
         Auth::guard('panel')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

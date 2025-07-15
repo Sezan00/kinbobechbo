@@ -1,4 +1,4 @@
-@extends('layout.header')
+@extends('layout.panel-header')
 @section('content')
 <div class="bg-gray-100 min-h-screen py-10">
  <div class="max-w-5xl mx-auto bg-white rounded-xl p-8 shadow-md ">

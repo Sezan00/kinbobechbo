@@ -1,5 +1,5 @@
 
-@extends('layout.header')
+@extends('layout.panel-header')
 @section('content')
 <body class="bg-gray-100 text-gray-800">
 
@@ -15,7 +15,7 @@
         <a href="{{ route('categories.index') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">📂 Categories</a>
         <a href="{{ route('categories.index') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🏷️ Brands</a>
         <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">📦 Products</a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">👥 Users</a>
+        <a href="{{ route('user.list_admin') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">👥Panel Users</a>
         <a href="{{ route('permisson.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🛡️ Permissions</a>
         <a href="{{ route('roles.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🔐 Roles</a>
         <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">⚙️ Settings</a>
@@ -54,22 +54,26 @@
       </div>
 
       <!-- Stat Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
         <div class="bg-white rounded-xl p-6 shadow text-center">
           <h2 class="text-xl font-semibold mb-1">Total Categories</h2>
-          <p class="text-3xl font-bold text-blue-500">12</p>
+          <p class="text-3xl font-bold text-blue-500">{{ $totalCategories }}</p>
         </div>
         <div class="bg-white rounded-xl p-6 shadow text-center">
           <h2 class="text-xl font-semibold mb-1">Total Brands</h2>
-          <p class="text-3xl font-bold text-green-500">8</p>
+          <p class="text-3xl font-bold text-green-500">{{$totalBrands}}</p>
         </div>
         <div class="bg-white rounded-xl p-6 shadow text-center">
           <h2 class="text-xl font-semibold mb-1">Total Products</h2>
-          <p class="text-3xl font-bold text-indigo-500">53</p>
+          <p class="text-3xl font-bold text-indigo-500">{{$totalProducts}}</p>
         </div>
         <div class="bg-white rounded-xl p-6 shadow text-center">
-          <h2 class="text-xl font-semibold mb-1">Total Users</h2>
-          <p class="text-3xl font-bold text-yellow-500">179</p>
+          <h2 class="text-xl font-semibold mb-1">Total Normal Users</h2>
+          <p class="text-3xl font-bold text-yellow-500">{{$totalUsers}}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow text-center">
+          <h2 class="text-xl font-semibold mb-1">Total Panel Users</h2>
+          <p class="text-3xl font-bold text-yellow-500">{{$totalPanelUser}}</p>
         </div>
       </div>
 

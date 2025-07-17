@@ -8,29 +8,38 @@
       {{ session('success') }}
     </div>
     @endif
-<form action="{{ route('category_upload') }}" method="POST">
-    @csrf
+    @php
+        $panel = auth('panel')->user();
+    @endphp
+    @if ($panel && $panel->can('createCategory', App\Models\Category::class ))
+        
+    
+    {{-- @can('createCategory', App\Models\Category::class) --}}
+   <form action="{{ route('category_upload') }}" method="POST">
+        @csrf
 
-    <label class="text-gray-700 font-medium text-2xl block mb-2">Create Category</label>
+        <label class="text-gray-700 font-medium text-2xl block mb-2">Create Category</label>
 
-    <input class="mb-1 w-full border border-gray-300 p-2 rounded-2xl shadow focus:outline-none focus:ring-2 focus:ring-red-400" 
-           type="text" name="name" placeholder="Enter your category name">
-    @error('name')
-        <p class="text-red-500 text-sm">{{ $message }}</p>
-    @enderror
+        <input class="mb-1 w-full border border-gray-300 p-2 rounded-2xl shadow focus:outline-none focus:ring-2 focus:ring-red-400" 
+            type="text" name="name" placeholder="Enter your category name">
+        @error('name')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+        @enderror
 
-    <input class="mt-4 w-full border border-gray-300 p-2 rounded-2xl shadow focus:outline-none focus:ring-2 focus:ring-red-400" 
-           type="text" name="slug" placeholder="Enter unique slug (optional)">
-    @error('slug')
-        <p class="text-red-500 text-sm">{{ $message }}</p>
-    @enderror
+        <input class="mt-4 w-full border border-gray-300 p-2 rounded-2xl shadow focus:outline-none focus:ring-2 focus:ring-red-400" 
+            type="text" name="slug" placeholder="Enter unique slug (optional)">
+        @error('slug')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+        @enderror
 
-    <div class="mt-6">
-        <button type="submit" class="bg-[#169C89] p-2 rounded-2xl text-white font-bold px-6 hover:bg-[#127f6f] transition">
-            Add Category
-        </button>
-    </div>
+        <div class="mt-6">
+            <button type="submit" class="bg-[#169C89] p-2 rounded-2xl text-white font-bold px-6 hover:bg-[#127f6f] transition">
+                Add Category
+            </button>
+        </div>
 </form>
+@endif
+{{-- @endcan --}}
     <div class="mb-10">
         <p class="text-red-300 text-sm text-end">This page is only accessible to the website owner</p>
     </div>
@@ -55,6 +64,8 @@
         <tr>
             <td class="px-6 py-4 text-sm text-gray-700">{{ $category->name }}</td>
             <td class="px-6 py-4 text-sm">
+                
+               @if(Auth::guard('panel')->user()?->can('delete', App\Models\Category::class))
                 <form action="{{ route('category_delete', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                     @csrf
                     @method('DELETE')
@@ -62,6 +73,9 @@
                         Delete
                     </button>
                 </form>
+                @else
+                <span class="text-muted">No Access</span>
+                  @endif
             </td>
         </tr>
         @endforeach

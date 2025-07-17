@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Redis;
-
+use App\Models\Product;
 class UserController extends Controller
 {
     public function UserSingupShow(){
@@ -52,8 +52,10 @@ class UserController extends Controller
 
     public function UserAccount(){
         $user = auth('web')->user();
-        $products = $user->product()->latest()->get();
+         $products = Product::where('user_id', auth()->id())->latest()->get();
         return view('user.user-accout', compact('products'));
+    //      $products = Product::where('status', 'approved')->latest()->paginate(10);
+    // return view('user.user-accout', compact('products'));
     }
 
     public function UserProfileShow(){

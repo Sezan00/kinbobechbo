@@ -90,21 +90,24 @@
     </div>
        {{-- @auth
         @if(auth()->id() === $product->user_id) --}}
-            @can('update', $product)
+          
             
             <div class="mt-4 flex gap-3">
+               @can('update', $product)
               <a href="{{ route('product.edit', $product->id) }}" class="border border-gray-800 px-4 py-2 bg-[#169C89] rounded-sm text-white font-bold shadow hover:bg-[#0E7F6F]">✏️ Edit</a>
-              @endcan
-              @can('delete', $product)
+               @endcan
               <div>
+                 @can('delete', $product)
                 <form action="{{ route('product.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="border border-gray-800 px-4 py-2 bg-red-400 text-white font-bold rounded-sm shadow hover:bg-red-800">🗑️ Delete</button>
                 </form>
+                 @endcan
             </div>
+        
             </div>
-             @endcan
+           
             
         {{-- @endif
     @endauth --}}

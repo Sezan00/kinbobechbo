@@ -28,7 +28,7 @@
       <!-- Example row -->
         @foreach($roles as $role)
           <tr class="hover:bg-gray-50">
-            <td class="border border-gray-300 px-4 py-2">1</td>
+            <td class="border border-gray-300 px-4 py-2">{{$loop->iteration}}</td>
             <td class="border border-gray-300 px-4 py-2 font-semibold">{{$role->name }}</td>
             <td class="border border-gray-300 px-4 py-2">
               <ul class="list-disc list-inside space-y-1">
@@ -40,6 +40,15 @@
             <td class="px-4 py-2">
         <div class="flex justify-center space-x-2">
             {{-- Delete Button --}}
+            @php
+              $panel = auth('panel')->user();;
+            @endphp
+            @if ($panel && $panel->can('delete', $role))
+              
+          
+           
+              
+        
             <form action="{{ route('delete.role', $role->id) }}" method="POST" onsubmit="return confirm('Are you sure to delete this role?')">
                 @csrf
                 @method('DELETE')
@@ -55,7 +64,8 @@
                     Delete
                 </button>
             </form>
-
+              
+              
             {{-- Edit Button --}}
             <a href="{{ route('edit.role', $role->id) }}">
                 <button
@@ -71,6 +81,9 @@
                 </button>
             </a>
         </div>
+        @else
+        <span>Sorry, You have no permission</span>
+        @endif
     </td>
 
       </tr>

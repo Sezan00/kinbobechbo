@@ -24,12 +24,20 @@
       <td class="px-4 py-2 border-b">{{ $loop->iteration }}</td>
       <td class="px-4 py-2 border-b">{{ $permission->name }}</td>
       <td class="px-4 py-2 border-b text-center space-x-2">
+        @php
+          $panel = auth('panel')->user();
+        @endphp
+        @if ($panel && $panel->can('update', $permission))
         <a href="{{ route('Permission.edit', $permission->id) }}">
         <button class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition">Edit</button>
         </a>
+         
         <a href="javascript:voide(0);" onclick="deletePermission({{ $permission->id }})">
         <button class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">Delete</button>
         </a>
+        @else 
+        <span>No Acess</span>
+        @endif
       </td>
     </tr>
   @endforeach

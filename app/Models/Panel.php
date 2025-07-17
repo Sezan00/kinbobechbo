@@ -22,21 +22,34 @@ class Panel extends Authenticatable
         'remember_token',
     ];
 
-    // ✅ Role relationship define (Many-to-Many)
+  
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'panel_role');
+        return $this->belongsToMany(Role::class, 'panel_role', 'panel_id', 'role_id');
     }
 
-    // ✅ Check if panel has a role
+ 
     public function hasRole($roleName)
-    {
+    {   if($this->roles()->contains('Super Admin'))
+         return true;
         return $this->roles()->where('name', $roleName)->exists();
     }
 
-    // ✅ Assign a role to this panel
+  
     public function assignRole($roleId)
     {
         $this->roles()->syncWithoutDetaching([$roleId]);
+    }
+
+    public function permissions(){
+       return $this->roles->flatMap(function ($role) {
+        return $role->permissions;
+        })->pluck('name')->unique();
+    }
+
+    public function hasPermission($permissionName){
+        return $this->roles->flatMap(function ($rule) {
+                    return $rule->permissions;
+                })->pluck('name')->unique()->contains($permissionName);
     }
 }

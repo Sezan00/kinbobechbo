@@ -14,7 +14,7 @@
         <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">📊 Dashboard</a>
         <a href="{{ route('categories.index') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">📂 Categories</a>
         <a href="{{ route('categories.index') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🏷️ Brands</a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-indigo-50">📦 Products</a>
+        <a href="{{ route('product.pending.show') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">📦Pending Products</a>
         <a href="{{ route('user.list_admin') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">👥Panel Users</a>
         <a href="{{ route('permisson.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🛡️ Permissions</a>
         <a href="{{ route('roles.list') }}" class="block px-4 py-2 rounded hover:bg-indigo-50">🔐 Roles</a>
@@ -31,17 +31,24 @@
   <h1 class="text-3xl font-bold">📊 Dashboard</h1>
 
   <div class="flex gap-3">
+    @php
+    $panel = auth('panel')->user();
+    @endphp
+    @if($panel && $panel->can('create', App\Models\Permission::class))
     <a href="{{ route('permission.create') }}">
       <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
         ➕ Create Permission
       </button>
     </a>
-
+  @endif
+    @if ($panel && $panel->can('createRole', App\Models\Role::class))
+  
     <a href="{{ route('index.role') }}">
       <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
         ➕ Create Role
       </button>
     </a>
+     @endif
   </div>
 </div>
 

@@ -20,8 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Gate::define('view-profile', function($user, $profileUser){
-        //     $user->id === $profileUser;
-        // });
+
+        Gate::policy(\App\Models\Category::class, \App\Policies\CategoryPolicy::class);
+        Gate::policy(\App\Models\Product::class, \App\Policies\ProductPolicy::class);
+        Gate::policy(\App\Models\Permission::class, \App\Policies\PermissionPolicy::class);
+        Gate::policy(\App\Models\Role::class, \App\Policies\RolePolicy::class);
     }
 }

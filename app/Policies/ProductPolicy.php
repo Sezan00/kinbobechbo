@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Panel;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -38,6 +39,7 @@ class ProductPolicy
     public function update(User $user, Product $product): bool
     {
         return $user->id === $product->user_id;
+       
     }
 
     /**
@@ -46,6 +48,8 @@ class ProductPolicy
     public function delete(User $user, Product $product): bool
     {
          return $user->id === $product->user_id;
+         
+        
     }
 
     /**
@@ -63,4 +67,12 @@ class ProductPolicy
     {
         return false;
     }
+    
+    public function approve(Panel $user): bool {
+        return $user->hasPermission('approve_product');
+    }
+    public function reject(Panel $user): bool {
+        return $user->hasPermission('reject_product');
+    }
+
 }

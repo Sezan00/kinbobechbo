@@ -36,7 +36,7 @@ class AdminController extends Controller
     }
 
     public function UpdatePanelUser(Request $request, $id){
-        // dd($request->role); 
+        
         $panel_user = Panel::with('roles')->findOrFail($id);
         $validator = Validator::make($request->all(),[
             'name'  => 'required|min:3',

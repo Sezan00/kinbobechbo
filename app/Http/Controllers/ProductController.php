@@ -60,6 +60,7 @@ class ProductController extends Controller
             'negotiable' => $request->has('negotiable') ? true : false,
             'phone_number' => $request->phone_number,
             'terms' => 'accepted',
+            'status' => 'pending',
         ] ,[
             'terms.accepted' => 'You must accept the Terms and Conditions.',
         ] );
@@ -112,9 +113,12 @@ class ProductController extends Controller
 }
 
 
-    public function ProductListShow(){
-        $products = Product::with('category')->get();
-        return view('product.product-list-show', compact('products'));
+   public function ProductListShow(){
+    $products = Product::with('category')
+                ->where('status', 'approved')
+                ->latest()
+                ->paginate(10); // optional pagination
+    return view('product.product-list-show', compact('products'));
     }
 
 
@@ -156,8 +160,10 @@ class ProductController extends Controller
     }
 
     public function destroy(string $id){
+        
         $product = Product::findOrFail($id);
-        Gate::authorize('delete', $product);
+       
+        // Gate::authorize('delete', $product);
         $product->delete();
         return redirect()->route('user.account')->with('deleted', 'your data has been deleted');
     }
@@ -166,8 +172,37 @@ class ProductController extends Controller
     public function CategoryShowProduct($slug){
         $category = Category::where('slug', $slug)->firstOrFail();
         
-        $products = $category->products()->latest()->get();
+        $products = $category->products()->where('status', 'approved')->latest()->get();
 
         return view('product.category-to-product', compact( 'category','products'));
     }
+
+    // AdminProductController.php
+    public function showPendingProducts(){
+        $products = Product::where('status', 'pending')->get();
+        return view('product.pending-product',compact('products'));
+    }
+
+        public function pendingProducts() {
+            $products = Product::where('status', 'pending')->get();
+            return view('product.pending-product', compact('products'));
+        }
+        public function approve($id){
+        $product = Product::findOrFail($id);
+        // $this->authorize('approve', Product::class);
+        $product->status = 'approved';
+        $product->save();
+
+        return redirect()->back()->with('message', 'Product approved.');
+     }
+
+     public function reject($id)
+    {
+        $product = Product::findOrFail($id);
+        
+        $product->delete(); 
+        
+        return back()->with('message', 'Product rejected and deleted.');
+    }
+
 }

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class PermissionController extends Controller
 {
-    public function permissionCreatePage()
-    {
+    public function permissionCreatePage(){
+        if(!FacadesAuth::guard('panel')->user()->can('create', Permission::class)){
+            abort(403);
+        }
         return view('permisson.create-permission');
     }
 
@@ -36,7 +39,11 @@ class PermissionController extends Controller
 
     // for edit controller 
     public function PermissionEdit($id){
+            
         $permission = Permission::findOrFail($id);
+         if(!FacadesAuth::guard('panel')->user()->can('update', $permission)){
+            abort(401);
+        }  
        return view('permisson.edit-permission', compact('permission'));
     }
 
@@ -57,6 +64,9 @@ class PermissionController extends Controller
     public function PermissionDelete(Request $request){
         $id = $request->id;
         $permission = Permission::findOrFail($id);
+         if(!FacadesAuth::guard('panel')->user()->can('delete', $permission)){
+            abort(403);
+        }
         if($permission == null){
             session()->flash('error', 'permission not found');
             return response()->json([

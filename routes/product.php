@@ -21,5 +21,11 @@ Route::get('product/show/{id}', [ProductController::class, 'ProductShow'])->name
 Route::middleware('user')->group(function () {
     Route::get('/product/{id}/edit', [ProductController::class, 'PosterEditHisProduct'])->name('product.edit');
     Route::put('/product/{id}', [ProductController::class, 'UpdateProduct'])->name('product.update');
-    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy')->middleware('can:delete');
+    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
+
+Route::get('product/pending', [ProductController::class, 'showPendingProducts'])->name('product.pending.show');
+Route::post('/admin/products/{id}/approve', [ProductController::class, 'approve'])->name('admin.products.approve');
+
+Route::delete('/admin/products/{id}/reject', [ProductController::class, 'reject'])->name('admin.products.reject');
+

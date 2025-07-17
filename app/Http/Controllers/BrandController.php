@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Facades\Auth;
 
 class BrandController extends Controller
 {
@@ -28,12 +29,23 @@ class BrandController extends Controller
 
 
     public function categoriesShow(){
+        // return Auth::guard('panel')->user();
+        
+
         $categories = Category::all();
+
+        if(!Auth::guard('panel')->user()->can('viewAny', Category::class)) {
+            abort(401);
+        }
         return view('brand.category-show', compact('categories'));
     }
 
     public function BrandView($slug){
         $category =  Category::where('slug', $slug)->with('brands')->firstOrFail();
+        
+        if(!Auth::guard('panel')->user()->can('view', $category)) {
+            abort(401);
+        }
         return view('brand.index', compact('category'));
     }
 

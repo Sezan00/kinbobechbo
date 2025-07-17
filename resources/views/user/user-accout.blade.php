@@ -39,6 +39,7 @@
                         <h3 class="mt-2 font-semibold text-lg">{{ $product->title }}</h3>
                         <p class="text-sm text-gray-600">{{Str::limit($product->description, 30)}}</p>
                         <p class="text-blue-600 font-bold mt-1">{{$product->price}}</p>
+                        <span> Status: <span class="badge">{{ ucfirst($product->status) }}</span>
                     </div>
                     </a>
                     @endforeach

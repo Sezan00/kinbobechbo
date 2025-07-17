@@ -6,10 +6,15 @@ use App\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Facade;
 
 class RoleController extends Controller
 {
     public function index(){
+        if(!FacadesAuth::guard('panel')->user()->can('createRole', Role::class)){
+            abort(403);
+        }
         $permissions = Permission::orderBy('name', 'ASC')->get();
         return view('roles.create-role',[
             'permissions' => $permissions
@@ -37,13 +42,16 @@ class RoleController extends Controller
     }
 
     public function RoleList(){
-            $roles = Role::with('Permissions')->paginate(10);
+            $roles = Role::with('permissions')->paginate(10);
             return view('roles.role-list', compact('roles'));
      }
 
         public function RoleEdit($id){
             $role = Role::with('permissions')->findOrFail($id);
-            $hasPermissions = $role->Permissions->pluck('name');
+            if(!FacadesAuth::guard('panel')->user()->can('update', $role)){
+                abort(401);
+            }
+            $hasPermissions = $role->permissions->pluck('name');
             $permissions = Permission::orderBy('name', 'asc')->get();
              return view('roles.edit-role', compact(
                     'role',
@@ -75,6 +83,9 @@ class RoleController extends Controller
 
         public function RoleDelete($id){
             $role = Role::findOrFail($id);
+            if(!FacadesAuth::guard('panel')->user()->can('delete', $role)){
+                abort(401);
+            }
             $role->permissions()->detach();
             $role->delete();
             

@@ -35,24 +35,76 @@ class AdminController extends Controller
         return view('admin.edit-panel-user', compact('panel_user', 'roles', 'hasRoles'));
     }
 
-    public function UpdatePanelUser(Request $request, $id){
-        
-        $panel_user = Panel::with('roles')->findOrFail($id);
-        $validator = Validator::make($request->all(),[
-            'name'  => 'required|min:3',
-            'email' => 'required|email|unique:panels,email,' . $id,
-            'role'  => 'required|array',
-            'role.*' => 'exists:roles,id',
-   
-        ]);
-        if($validator->fails()){
-            return redirect()->route('edit_panel_user', $id)->withInput()->withErrors($validator);
-        }
-        $panel_user->name = $request->name;
-        $panel_user->email = $request->email;
-        $panel_user->save();
+  public function UpdatePanelUser(Request $request, $id)
+{
+    $panel_user = Panel::with('roles')->findOrFail($id);
+    $authUser = auth('panel')->user();
 
-        $panel_user->roles()->sync($request->role);
-        return redirect()->route('user.list_admin')->with('success', 'User got Roles');
+    $requestedRoles = $request->input('role', []);
+    $requestedRoleNames = Role::whereIn('id', $requestedRoles)->pluck('name')->toArray();
+
+    $hasSuperAdmin = $panel_user->hasRole('Super Admin');
+    $itSelf = $panel_user->id == $authUser->id;
+
+    // Super Admin নিজে নিজের Super Admin role সরাতে পারবে না
+    if ($hasSuperAdmin && $itSelf && !in_array('Super Admin', $requestedRoleNames)) {
+        return back()->with('error', 'You cannot remove your own Super Admin role.');
     }
+
+    // Super Admin role অন্য থেকে সরানো যাবে না যদি requester Super Admin না হয়
+    if ($hasSuperAdmin && !$itSelf && !in_array('Super Admin', $requestedRoleNames)) {
+        if (!$authUser->hasRole('Super Admin')) {
+            return back()->with('error', 'You are not allowed to remove Super Admin role from this user.');
+        }
+    }
+
+    // Super Admin role শুধু Super Admin দিতেই পারবে
+    if (in_array('Super Admin', $requestedRoleNames) && !$authUser->hasRole('Super Admin')) {
+        return back()->with('error', 'You are not allowed to assign Super Admin role.');
+    }
+
+    // এখন Admin role সম্পর্কে চেক:
+    $authUserHasSuperAdmin = $authUser->hasRole('Super Admin');
+    $authUserHasAdmin = $authUser->hasRole('Admin');
+    $hadAdminRoleBefore = $panel_user->hasRole('Admin');
+    $hasAdminRoleNow = in_array('Admin', $requestedRoleNames);
+
+    // যারা Super Admin নয়, তারা Admin role অ্যাসাইন বা রিমুভ করতে পারবে না
+    if (!$authUserHasSuperAdmin) {
+        if ($hasAdminRoleNow && !$hadAdminRoleBefore) {
+            return back()->with('error', 'You are not allowed to assign Admin role.');
+        }
+
+        if ($hadAdminRoleBefore && !$hasAdminRoleNow) {
+            return back()->with('error', 'You are not allowed to remove Admin role.');
+        }
+    }
+
+    // নিজের Admin role সরানো যাবে না
+    if ($hadAdminRoleBefore && $itSelf && !$hasAdminRoleNow) {
+        return back()->with('error', 'You cannot remove your own Admin role.');
+    }
+
+    // Validate
+    $validator = Validator::make($request->all(),[
+        'name'  => 'required|min:3',
+        'email' => 'required|email|unique:panels,email,' . $id,
+        'role'  => 'required|array',
+        'role.*' => 'exists:roles,id',
+    ]);
+
+    if($validator->fails()){
+        return redirect()->route('edit_panel_user', $id)->withInput()->withErrors($validator);
+    }
+
+    // আপডেট
+    $panel_user->name = $request->name;
+    $panel_user->email = $request->email;
+    $panel_user->save();
+
+    $panel_user->roles()->sync($requestedRoles);
+
+    return redirect()->route('user.list_admin')->with('success', 'User roles updated successfully!');
+}
+
 }

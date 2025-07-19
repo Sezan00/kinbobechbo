@@ -26,21 +26,39 @@
     </div>
       <div class="mb-6">
     <label class="block text-lg text-gray-700 font-medium mb-3">Assign Permissions</label>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        @if ($roles->isNotEmpty())
-            @foreach ($roles as $role)
-          
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    @php
+        $panel = auth('panel')->user();
+    @endphp
+
+    @if ($roles->isNotEmpty())
+        @foreach ($roles as $role)
+            @if ($panel && $panel->can('update', $role))
                 <label for="role-{{ $role->id }}" class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer">
-                    
-                    <input  {{ ($hasRoles->contains($role->id)) ? 'checked' : ''}} type="checkbox" id="role-{{ $role->id }}" name="role[]"
+                    <input
+                        {{ ($hasRoles->contains($role->id)) ? 'checked' : '' }}
+                        type="checkbox"
+                        id="role-{{ $role->id }}"
+                        name="role[]"
                         value="{{ $role->id }}"
-                        class="h-5 w-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-400 border-gray-300">
-                        
+                        class="h-5 w-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-400 border-gray-300"
+                    >
                     <span class="text-gray-800 text-sm font-medium">{{ $role->name }}</span>
                 </label>
-            @endforeach
-        @endif
-                </div>
+            @else
+               {{-- if no power for update this code  --}}
+                @if ($hasRoles->contains($role->id))
+                    <div class="p-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium">
+                        {{ $role->name }}
+                    </div>
+                @endif
+            @endif
+        @endforeach
+    @else
+        <p>No roles found.</p>
+    @endif
+</div>
+
             </div>
         </form>
     </div>

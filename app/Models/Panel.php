@@ -29,13 +29,34 @@ class Panel extends Authenticatable
     }
 
  
-    public function hasRole($roleName)
-    {   if($this->roles()->contains('Super Admin'))
-         return true;
-        return $this->roles()->where('name', $roleName)->exists();
-    }
+    // public function hasRole($roleName){  
+    //     if($this->roles()->contains('name', 'Super Admin'))
+    //      return true;
+    //      return $this->roles()->where('name', $roleName)->exists();
+    // }
 
-  
+        public function hasRole($roleName) {
+            return $this->roles()->where('name', $roleName)->exists();
+        }
+        
+        public function isSuperAdmin() {
+            return $this->hasRole('Super Admin');
+        }
+
+
+        //     return $this->roles()->where('name', $roleName)->exists();
+        // }
+        //     public function hasRole($roleName)
+        // {
+        //     return $this->roles()->where('name', $roleName)->exists();
+        // }
+        // public function hasRole($roleName)
+        // {
+        //     return $this->roles()->whereRaw('LOWER(name) = ?', [strtolower($roleName)])->exists();
+        // }
+
+
+
     public function assignRole($roleId)
     {
         $this->roles()->syncWithoutDetaching([$roleId]);

@@ -12,6 +12,10 @@ class PermissionPolicy
     /**
      * Determine whether the user can view any models.
      */
+    public function assign(Panel $user){
+        return $user->hasPermission('assign_role');
+    }
+
     public function viewAny(User $user): bool
     {
         return false;

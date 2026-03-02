@@ -46,30 +46,25 @@ class AdminController extends Controller
     $hasSuperAdmin = $panel_user->hasRole('Super Admin');
     $itSelf = $panel_user->id == $authUser->id;
 
-    // Super Admin নিজে নিজের Super Admin role সরাতে পারবে না
     if ($hasSuperAdmin && $itSelf && !in_array('Super Admin', $requestedRoleNames)) {
         return back()->with('error', 'You cannot remove your own Super Admin role.');
     }
 
-    // Super Admin role অন্য থেকে সরানো যাবে না যদি requester Super Admin না হয়
     if ($hasSuperAdmin && !$itSelf && !in_array('Super Admin', $requestedRoleNames)) {
         if (!$authUser->hasRole('Super Admin')) {
             return back()->with('error', 'You are not allowed to remove Super Admin role from this user.');
         }
     }
 
-    // Super Admin role শুধু Super Admin দিতেই পারবে
     if (in_array('Super Admin', $requestedRoleNames) && !$authUser->hasRole('Super Admin')) {
         return back()->with('error', 'You are not allowed to assign Super Admin role.');
     }
 
-    // এখন Admin role সম্পর্কে চেক:
     $authUserHasSuperAdmin = $authUser->hasRole('Super Admin');
     $authUserHasAdmin = $authUser->hasRole('Admin');
     $hadAdminRoleBefore = $panel_user->hasRole('Admin');
     $hasAdminRoleNow = in_array('Admin', $requestedRoleNames);
 
-    // যারা Super Admin নয়, তারা Admin role অ্যাসাইন বা রিমুভ করতে পারবে না
     if (!$authUserHasSuperAdmin) {
         if ($hasAdminRoleNow && !$hadAdminRoleBefore) {
             return back()->with('error', 'You are not allowed to assign Admin role.');

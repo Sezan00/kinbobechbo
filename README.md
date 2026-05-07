@@ -33,3 +33,7 @@ This project was developed to practice real-world e-commerce backend logic, dyna
 - Edit and update product details easily
 - Delete products with related data cleanup
 - Category-wise filtering system
+
+## 🎥 Demo Video
+
+[![Watch Demo](https://img.youtube.com/vi/odTBn4ikMFU/0.jpg)](https://youtu.be/odTBn4ikMFU)
